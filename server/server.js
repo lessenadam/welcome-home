@@ -19,13 +19,19 @@ app.get('/', (req, res) => res.send('Hello World!')
 
 app.post('/api/users/:userId/message', (req, res) => {
   // track user location message
-  db.set(`user:${req.params.userId}`, req.body.message);
+  console.log('message---', req.body.message);
+  console.log('body---', req.body);
+  // db.set(`user:${req.params.userId}`, req.body.message);
   res.sendStatus(200);
 });
 
 app.get('/api/users/:userId/message', (req, res) => {
   // track user location message
   db.get(`user:${req.params.userId}`, (err, reply) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log('reply:', reply)
     res.send(reply);
   });
 });

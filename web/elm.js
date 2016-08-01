@@ -8588,10 +8588,28 @@ var _user$project$MessageForm$update = F2(
 					_elm_lang$core$Basics_ops['++'],
 					A2(_elm_lang$core$Debug$log, 'userId', model.userId),
 					'/message'));
-			var request = A2(
-				_evancz$elm_http$Http$get,
-				_elm_lang$core$Json_Decode$succeed(''),
-				url);
+			var request = A3(
+				_evancz$elm_http$Http$post,
+				_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string),
+				url,
+				_evancz$elm_http$Http$multipart(
+					_elm_lang$core$Native_List.fromArray(
+						[
+							A2(
+							_evancz$elm_http$Http$stringData,
+							'user',
+							A2(
+								_elm_lang$core$Json_Encode$encode,
+								0,
+								_elm_lang$core$Json_Encode$string('adam'))),
+							A2(
+							_evancz$elm_http$Http$stringData,
+							'payload',
+							A2(
+								_elm_lang$core$Json_Encode$encode,
+								0,
+								_elm_lang$core$Json_Encode$string('message')))
+						])));
 			var cmd = A3(_elm_lang$core$Task$perform, failureToMsg, successToMsg, request);
 			return {
 				ctor: '_Tuple2',

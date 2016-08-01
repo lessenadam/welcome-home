@@ -6,7 +6,8 @@ import Html.Events exposing (..)
 import Html.Attributes exposing (id, type', for, value, class)
 import Http
 import Task exposing (Task)
-import Json.Decode exposing (succeed)
+import Json.Decode exposing (succeed, list, string)
+import Json.Encode as JS
 
 
 view model =
@@ -70,7 +71,15 @@ update msg model =
                 { msgType = "USERNAME_TAKEN", payload = "" }
 
             request =
-                Http.get (succeed "") url
+                Http.post
+                    (list string)
+                    url
+                    --(Debug.log "string is resolving to: " (Http.string """{ "message": "figure out the whole message thing"}"""))
+                    (Http.multipart
+                        [ Http.stringData "user" (JS.encode 0 (JS.string "adam"))
+                        , Http.stringData "payload" (JS.encode 0 (JS.string "message"))
+                        ]
+                    )
 
             cmd =
                 Task.perform failureToMsg successToMsg request
